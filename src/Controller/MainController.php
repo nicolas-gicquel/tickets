@@ -27,6 +27,7 @@ class MainController extends AbstractController
             'tickets' => $tickets
         ]);
     }
+    
     #[Route('/stats', name: 'app_stats')]
     public function stats(TicketsRepository $ticketsRepository,EntityManagerInterface $em): Response
     {

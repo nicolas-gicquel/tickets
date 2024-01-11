@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            {% elseif ticket.status.id == 1 %}
+            {% elseif ticket.status.id == 1 and app.user.id != ticket.user.id  %}
             <div class="mt-3">
                 {% include('tickets/_take_ticket_form.html.twig') %}
             </div>
@@ -55,6 +55,7 @@
         </div>
     </div>
 </div>
+
 
 
 {% endblock %}

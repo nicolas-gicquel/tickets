@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -149,6 +150,13 @@ class TicketsController extends AbstractController
     #[Route('/{id}/edit', name: 'app_tickets_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Tickets $ticket, EntityManagerInterface $entityManager): Response
     {
+        // dd();
+        if(  $this->getUser()->getId() != $ticket->getUser()->getId()) {
+            if(!in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
+                throw new AccessDeniedException('Access denied.');
+            }
+        }
+
         $form = $this->createForm(TicketsType::class, $ticket);
         $form->handleRequest($request);
 
@@ -167,6 +175,12 @@ class TicketsController extends AbstractController
     #[Route('/{id}', name: 'app_tickets_delete', methods: ['POST'])]
     public function delete(Request $request, Tickets $ticket, EntityManagerInterface $entityManager): Response
     {
+        if(  $this->getUser()->getId() != $ticket->getUser()->getId()) {
+            if(!in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
+                throw new AccessDeniedException('Access denied.');
+            }
+        }
+
         if ($this->isCsrfTokenValid('delete' . $ticket->getId(), $request->request->get('_token'))) {
             $entityManager->remove($ticket);
             $entityManager->flush();

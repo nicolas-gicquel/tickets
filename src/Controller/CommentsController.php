@@ -8,6 +8,7 @@ use App\Repository\CommentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/comments')]
 class CommentsController extends AbstractController
 {
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/', name: 'app_comments_index', methods: ['GET'])]
     public function index(CommentsRepository $commentsRepository): Response
     {
@@ -53,9 +55,16 @@ class CommentsController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'app_comments_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Comments $comment, EntityManagerInterface $entityManager): Response
     {
+        if($comment->getUser()->getId() != $this->getUser()->getId()) {
+            if(!in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
+                throw new AccessDeniedException('Access denied.');
+            }
+        }
+
         $form = $this->createForm(CommentsType::class, $comment);
         $form->handleRequest($request);
 
@@ -74,6 +83,16 @@ class CommentsController extends AbstractController
     #[Route('/{id}', name: 'app_comments_delete', methods: ['POST'])]
     public function delete(Request $request, Comments $comment, EntityManagerInterface $entityManager): Response
     {
+        // dd($comment->getUser()->getId());
+        
+        if($comment->getUser()->getId() != $this->getUser()->getId()) {
+            if(!in_array('ROLE_ADMIN', $this->getUser()->getRoles())){
+                throw new AccessDeniedException('Access denied.');
+            }
+        }
+
+        dd('stop');
+
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
             $entityManager->remove($comment);
             $entityManager->flush();

@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/categories')]
 class CategoriesController extends AbstractController
 {
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/', name: 'app_categories_index', methods: ['GET'])]
     public function index(CategoriesRepository $categoriesRepository): Response
     {
@@ -24,6 +25,7 @@ class CategoriesController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'app_categories_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -44,6 +46,7 @@ class CategoriesController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'app_categories_show', methods: ['GET'])]
     public function show(Categories $category): Response
     {
@@ -52,9 +55,11 @@ class CategoriesController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'app_categories_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Categories $category, EntityManagerInterface $entityManager): Response
     {
+
         $form = $this->createForm(CategoriesType::class, $category);
         $form->handleRequest($request);
 
@@ -70,9 +75,12 @@ class CategoriesController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'app_categories_delete', methods: ['POST'])]
     public function delete(Request $request, Categories $category, EntityManagerInterface $entityManager): Response
     {
+
+
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $entityManager->remove($category);
             $entityManager->flush();
