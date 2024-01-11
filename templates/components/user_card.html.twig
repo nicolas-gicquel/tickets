@@ -1,0 +1,35 @@
+<style>
+	.hover-image-container {
+		width: 215px;
+		height: 312px;
+		border-radius: 75px;
+	}
+	.hover-image-container img {
+		transition: opacity 0.5s ease;
+	}
+	.image-overlay {
+		background-color: var(--hover-image);
+		opacity: 0;
+		transition: opacity 0.5s ease;
+	}
+	.hover-image-container:hover .image-overlay {
+		opacity: 1;
+	}
+</style>
+
+	<a href="{{ path('app_user_show', {'id': user.id}) }}" class="d-block">
+	<div class="hover-image-container position-relative overflow-hidden">
+		<img 
+			src="{{ user.avatarPath ? asset('images/avatars/' ~ user.avatarPath) : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkq3iQYVKllbdVHi-Lry0cRuKzGMMnWhEFCg&usqp=CAU' }}" 
+			alt="Profil de {{ user.pseudo }}" 
+			class="img-fluid w-100 h-100 object-fit-cover"
+		>
+		<div class="image-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+			<div class="text-white text-center fs-4">
+				<p class="mb-0">{{ user.pseudo }}</p>
+				<p class="mb-0">{{ user.discordPath }}</p>
+				<p class="mb-0">{{ user.ticketSolved }} Tickets résolus</p>
+			</div>
+		</div>
+	</div>
+</a>

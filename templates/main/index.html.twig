@@ -1,0 +1,214 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!
+{% endblock %}
+{% block body %}
+	<style>
+		h5 {
+			color: var(--lighter-purple-color);
+		}
+		.dot-status {
+			width: 15px;
+			height: 15px;
+			border-radius: 50%;
+			display: inline-block;
+			margin-right: 10px;
+			background-color: var(--new-ticket-color);
+		}
+		.main-section {
+			border: none;
+			border-radius: 4px;
+		}
+		.search-bar {
+			border-radius: 4px;
+			border: 1px solid #E7E7E7;
+			background: #FBFBFB;
+		}
+		.choice-list {
+			padding: 14px 13px 11px 18px;
+			border-radius: 4px;
+			border: 1px solid #E7E7E7;
+		}
+		.filter-buttons .btn {
+			margin-right: 0.5rem;
+		}
+		.active-btn {
+			color: var(--lighter-purple-color);
+			border-bottom: 2px solid var(--lighter-purple-color);
+			font-weight: bold;
+		}
+		/* .active-status {
+			cursor: not-allowed;
+			pointer-events: none;
+
+		}
+		active-status:hover {
+			cursor: not-allowed;
+			pointer-events: none;
+		} */
+	</style>
+
+	<div class="container-fluid">
+		<h1 class="page-title">Page d'accueil</h1>
+		<div class="card bg-white main-section">
+			<div class="card-body">
+				<div
+					class="d-flex justify-content-between align-items-center mb-3">
+					{# SEARCH BAR #}
+					<form class="form-inline my-2 my-lg-0 d-flex flex-row">
+						<input
+						class="form-control mr-sm-2 search-bar" type="search" placeholder="Rechercher un ticket" aria-label="Search">
+					{# <button class="btn my-2 my-sm-0 ms-2 btn-second" type="submit">Rechercher</button> #}
+					</form>
+
+					<div>
+						{# STATUS FILTER #}
+						<select class="custom-select mr-2 choice-list" onchange="updateActiveStatus(this)">
+							<option selected value="">Tous</option>
+							{% for statu in status %}
+								<option value="{{ statu.slug }}">{{ statu.label }}</option>
+							{% endfor %}
+						</select>
+						{# DATE FILTER #}
+						<select class="custom-select choice-list" onchange="filterByDate(this)">
+							<option value="all">Tous</option>
+							<option value="today">Aujourd'hui</option>
+							<option value="week">Cette semaine</option>
+							<option value="month">Ce mois</option>
+						</select>
+						<a class="btn btn-first" href="{{ path('app_tickets_new') }}">Nouveau ticket</a>
+					</div>
+				</div>
+
+				{# ACTIVE STATUS #}
+				<div class="border-bottom mb-4">
+					<div class="filter-buttons btn-group" role="group" aria-label="Basic example">
+						<button type="button" class="btn active-btn active-status" data-status="">Tous</button>
+						{% for statu in status %}
+							<button type="button" class="btn active-status" data-status="{{ statu.slug }}">{{ statu.label }}</button>
+						{% endfor %}
+					</div>
+				</div>
+				{# TICKET #}
+				{% for ticket in tickets %}
+					<div class="card mb-4 ticket-item {{ ticket.status.slug }}" data-created-at="{{ ticket.createdAt|date('c') }}">
+						<div class="card-body">
+							<div class="d-flex align-items-center mb-3">
+								<span class="rounded-circle dot-status" style="background-color: {{ ticket.status.color }};"></span>
+								<h5 class="m-0 flex-grow-1">{{ticket.title|slice(0,50)}}
+									{% if ticket.title|length > 50 %}...
+									{% endif %}
+								</h5>
+								<span class="fs-6 fw-light">{{ ticket.createdAt|date('Y-m-d H:i') }}</span>
+							</div>
+							<div class="border-bottom pb-3 mb-3">
+								<p>{{ticket.description|slice(0,100)}}
+									{% if ticket.description|length > 100 %}...
+									{% endif %}
+								</p>
+							</div>
+							<div class="d-flex align-items-center justify-content-between">
+								<div class="d-flex align-items-center">
+									<img src="{{ ticket.user.avatarPath ? asset('images/avatars/' ~ ticket.user.avatarPath) : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkq3iQYVKllbdVHi-Lry0cRuKzGMMnWhEFCg&usqp=CAU' }}" alt="{{ ticket.user.pseudo }}" class="rounded-circle me-2" width="50" height="50">
+									<span class="name">{{ ticket.user.pseudo }}</span>
+								</div>
+								<a href="{{ path('app_tickets_show', { 'id' : ticket.id } ) }}">Ouvrir le ticket</a>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var selectedStatus = '';
+var selectedPeriod = 'all';
+
+// Add event listeners to status buttons
+document.querySelectorAll('.filter-buttons .btn').forEach(function (button) {
+button.addEventListener('click', function () {
+updateActiveStatus(button.dataset.status);
+});
+});
+
+function updateActiveStatus(status) {
+selectedStatus = status;
+filterTickets();
+}
+
+document.querySelector('.choice-list').addEventListener('change', function () {
+updateActiveStatus(this.value);
+});
+
+function filterByDate(selectElement) {
+selectedPeriod = selectElement.value;
+filterTickets();
+}
+
+
+// Combined filter function
+function filterTickets() {
+var tickets = document.querySelectorAll('.ticket-item');
+var now = new Date();
+
+// Update active status for filter buttons
+var buttons = document.querySelectorAll('.filter-buttons .btn');
+buttons.forEach(function (button) {
+if (button.dataset.status === selectedStatus) {
+button.classList.add('active-btn');
+} else {
+button.classList.remove('active-btn');
+}
+});
+
+// Apply filters to tickets
+tickets.forEach(function (ticket) {
+var displayStatus = selectedStatus === '' || ticket.classList.contains(selectedStatus);
+var createdAt = new Date(ticket.getAttribute('data-created-at'));
+var displayDate = false;
+
+switch (selectedPeriod) {
+case 'today': displayDate = createdAt.toDateString() === now.toDateString();
+break;
+case 'week':
+var startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+displayDate = createdAt >= startOfWeek;
+break;
+case 'month': displayDate = createdAt.getMonth() === now.getMonth() && createdAt.getFullYear() === now.getFullYear();
+break;
+case 'all':
+default: displayDate = true;
+break;
+}
+
+ticket.style.display = (displayStatus && displayDate) ? '' : 'none';
+});
+}
+// Live search
+function liveSearch() {
+var searchInput = document.querySelector('.search-bar').value.toLowerCase();
+var tickets = document.querySelectorAll('.ticket-item');
+
+tickets.forEach(function (ticket) {
+var title = ticket.querySelector('h5').textContent.toLowerCase();
+var description = ticket.querySelector('p').textContent.toLowerCase();
+
+if (title.includes(searchInput) || description.includes(searchInput)) {
+ticket.style.display = '';
+} else {
+ticket.style.display = 'none';
+}
+});
+}
+
+// addEventListener to search bar
+document.querySelector('.search-bar').addEventListener('input', liveSearch);
+
+// Prevent form submission on enter
+document.querySelector('.search-bar').addEventListener('keypress', function (e) {
+if (e.key === 'Enter') {
+e.preventDefault();
+}
+});
+</script>{% endblock %}

@@ -1,0 +1,202 @@
+:root {
+    --main-color: #232D3F;
+    --purple-color: #875EEB;
+    --lighter-purple-color: #5E63EB;
+    --dark-pink-color: #5EBCEB;
+    --lighter-pink-color: #B55EEB;
+    --new-ticket-color: #FE413B;
+    --ticket-pending-color: #5EDAEB;
+    --ticket-solved-color: #3BF54F;
+    --ticket-archived-color: #778899;
+    --fade-active-background: rgba(135, 94, 235, 0.22);
+    --border-gradient: rgba(94, 218, 235, 1);
+    --hover-image: rgba(135, 94, 235, 0.6);
+}
+
+body{
+    background-color: #F9F9FB;
+}
+
+.page-title{
+    color: var(--dark-pink-color);
+    margin-bottom: 20px;
+}
+
+.bg-main {
+    background-color: var(--main-color);
+}
+
+.bg-fade-active {
+    background-color: var(--fade-active-background);
+}
+
+.bg-purple {
+    background-color: var(--purple-color);
+}
+
+.bg-lighter-purple {
+    background-color: var(--lighter-purple-color);
+}
+
+.bg-dark-pink {
+    background-color: var(--dark-pink-color);
+}
+
+.bg-lighter-pink {
+    background-color: var(--lighter-pink-color);
+}
+
+.bg-new-ticket {
+    background-color: var(--new-ticket-color);
+}
+
+.bg-ticket-pending {
+    background-color: var(--ticket-pending-color);
+}
+
+.bg-ticket-solved {
+    background-color: var(--ticket-solved-color);
+}
+
+.text-fade-active {
+    color: var(--fade-active-background);
+}
+
+.text-ticket-solved {
+    color: var(--ticket-solved-color);
+}
+
+.text-ticket-pending {
+    color: var(--ticket-pending-color);
+}
+
+.text-new-ticket {
+    color: var(--new-ticket-color);
+}
+
+.text-main {
+    color: var(--main-color);
+}
+
+.text-purple {
+    color: var(--purple-color);
+    font-size: medium;
+}
+
+.text-lighter-purple {
+    color: var(--lighter-purple-color);
+}
+
+.text-dark-pink{
+    color: var(--dark-pink-color);
+}
+
+.text-lighter-pink {
+    color: var(--lighter-pink-color);
+}
+
+
+.dropdown-toggle::after {
+    border-top: 0.5em solid;
+    border-right: 0.5em solid transparent;
+    border-bottom: 0;
+    border-left: 0.5em solid transparent;
+}
+
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.sidebar .nav-link svg {
+    width: 22px;
+    height: 22px;
+}
+
+
+.sidebar .nav-link * {
+    color: white;
+    fill: white;
+}
+
+.sidebar .nav-link:hover * {
+    color: var(--ticket-pending-color);
+    fill: var(--ticket-pending-color);
+}
+
+.sidebar .nav-link span {
+    margin-left: 10px;
+}
+
+.sidebar .nav-link:hover {
+    background-color: var(--fade-active-background);
+}
+
+.sidebar-mobile .nav-item {
+    flex: 1;
+}
+
+.sidebar-mobile .nav-link {
+    padding: 15px 0;
+    justify-content: center;
+}
+
+.btn-second{
+    border-radius: 4px;
+    border: 1px solid var(--dark-pink-color);
+    color: var(--dark-pink-color);
+    padding: 10px;
+}
+.btn-second:hover{
+    border: 1px solid var(--dark-pink-color);
+    color: white;
+    background-color: var(--dark-pink-color);
+}
+.btn-first{
+    border-radius: 4px;
+    background-color: var(--dark-pink-color);
+    color: white;
+    padding: 10px;
+}
+.btn-first:hover{
+    border: 1px solid var(--dark-pink-color);
+    color: var(--dark-pink-color);
+}
+
+.table thead th span{
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background-color:  var(--hover-image);
+    color: white;
+    margin-right: 20px;
+    width: 100%;
+}
+
+.table tbody td{
+    text-align: center;
+}
+
+.btn-modify{
+    border-radius: 4px;
+    background-color: var(--dark-pink-color);
+    color: white;
+    padding: 10px;
+}
+
+.btn-delete{
+    border-radius: 4px;
+    background-color: var(--new-ticket-color);
+    color: white;
+    padding: 10px;
+}
+
+.dot-status {
+    min-width: 15px;
+    min-height: 15px;
+    border-radius: 50%;
+    display: block;
+    margin-right: 10px;
+    background-color: var(--new-ticket-color);
+}

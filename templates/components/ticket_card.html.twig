@@ -1,0 +1,31 @@
+<style>
+	h5 {
+		color: var(--lighter-purple-color);
+	}
+</style>
+
+<div class="card mb-4 ticket-item {{ ticket.status.slug }}" data-created-at="{{ ticket.createdAt|date('c') }}">
+	<div class="card-body">
+		<div class="d-flex align-items-center mb-3">
+			<span class="rounded-circle dot-status" style="background-color: {{ ticket.status.color }}"></span>
+			<h5 class="m-0 flex-grow-1">{{ ticket.title|slice(0,50) }}
+				{% if ticket.title|length > 50 %}...
+				{% endif %}
+			</h5>
+			<span class="fs-6 fw-light">{{ ticket.createdAt|date('Y-m-d H:i') }}</span>
+		</div>
+		<div class="border-bottom pb-3 mb-3">
+			<p>{{ticket.description|slice(0,100)}}
+				{% if ticket.description|length > 100 %}...
+				{% endif %}
+			</p>
+		</div>
+		<div class="d-flex align-items-center justify-content-between">
+			<div class="d-flex align-items-center">
+				<img src="{{ ticket.user.avatarPath ? asset('images/avatars/' ~ ticket.user.avatarPath) : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkq3iQYVKllbdVHi-Lry0cRuKzGMMnWhEFCg&usqp=CAU' }}" alt="{{ ticket.user.pseudo }}" class="rounded-circle me-2" width="50" height="50">
+				<span class="name">{{ ticket.user.pseudo }}</span>
+			</div>
+			<a href="{{ path('app_tickets_show', { 'id' : ticket.id } ) }}">Ouvrir le ticket</a>
+		</div>
+	</div>
+</div>

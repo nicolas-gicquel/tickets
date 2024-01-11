@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center mb-3">
+			<img src="{{ comment.user.avatarPath ? asset('images/avatars/' ~ comment.user.avatarPath) : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkq3iQYVKllbdVHi-Lry0cRuKzGMMnWhEFCg&usqp=CAU' }}" alt="{{ comment.user.pseudo }}" class="rounded-circle me-2" width="50" height="50">
+			<span class="name">{{comment.user.pseudo}}</span>
+		</div>
+        <p style="white-space: pre-line;"> {{comment.content}} </p>
+        {% if comment.images | length > 0 %}
+        <div class="d-flex flex-wrap mb-3">
+            {% for image in comment.images %}
+            <img width="auto" height="300" src="{{asset('images/' ~ image.path )}}" alt="zrtr">
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>

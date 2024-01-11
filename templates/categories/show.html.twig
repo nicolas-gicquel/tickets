@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<h1 class="page-title">Catégories</h1>
+		<div class="card bg-white main-section">
+			<div class="card">
+				<div class="card-body">
+					<table class="table">
+						<tbody>
+							<tr>
+								<th>Id</th>
+								<td>{{ category.id }}</td>
+							</tr>
+							<tr>
+								<th>Label</th>
+								<td>{{ category.label }}</td>
+							</tr>
+							<tr>
+								<th>Couleur</th>
+								<td>
+									<span class="badge" style="background-color: {{ category.color }};">{{ category.color }}</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="d-flex justify-content-between">
+						<a href="{{ path('app_categories_index') }}" class="btn btn-second">Retour à la liste</a>
+						<a href="{{ path('app_categories_edit', {'id': category.id}) }}" class="btn btn-modify">Modifier</a>
+						{{ include('categories/_delete_form.html.twig') }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block stylesheets %}
+	<style>
+		.badge {
+			color: white;
+			padding: 0.5em 0.75em;
+		}
+	</style>
+{% endblock %}

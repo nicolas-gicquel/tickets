@@ -1,0 +1,169 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="container-fluid">
+		<h1 class="page-title">Stats</h1>
+		<div
+			class="card bg-white main-section">
+
+			{# TODAY #}
+			<div class="card-body">
+				<h2 class="text-center">{{ "now"|date("d/m/Y") }}</h2>
+				<div
+					class="row text-center">
+					{# NEW TICKETS TODAY #}
+					<div class="col d-flex flex-column justify-content-between">
+						<div class="card border-0 h-100">
+							<div class="card-body d-flex flex-column justify-content-center">
+								<h3 style="color: rgba(135, 94, 235, 1);">{{ newTicketsToday }}</h3>
+								<p>Nouveaux</p>
+							</div>
+						</div>
+					</div>
+					{# IN PROGRESS TODAY #}
+					<div class="col d-flex flex-column justify-content-between">
+						<div class="card border-0 h-100">
+							<div class="card-body d-flex flex-column justify-content-center">
+								<h3 style="color: rgba(135, 94, 235, 1);">{{ inProgressTicketsToday }}</h3>
+								<p>En cours</p>
+							</div>
+						</div>
+					</div>
+					{# CLOSED TODAY #}
+					<div class="col d-flex flex-column justify-content-between">
+						<div class="card border-0 h-100">
+							<div class="card-body d-flex flex-column justify-content-center">
+								<h3 style="color: rgba(135, 94, 235, 1);">{{ closedTicketsToday }}</h3>
+								<p>Cloturés</p>
+							</div>
+						</div>
+					</div>
+					{# TODAY TOP #}
+					<div class="col d-flex flex-column justify-content-between">
+						<div
+							class="card border-0 h-100">
+							<!-- h-100 pour s'assurer que la carte occupe toute la hauteur -->
+							<div
+								class="card-body d-flex flex-column justify-content-center align-items-center">
+								<!-- Centre le contenu verticalement et horizontalement -->
+								<div
+									class="image-container" style=" width: 150px; height: 150px; flex-shrink: 0; border-radius: 38px; border: 3px solid #5EDAEB; background: linear-gradient(0deg, rgba(135, 94, 235, 0.60) 0%, rgba(135, 94, 235, 0.60) 100%), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkq3iQYVKllbdVHi-Lry0cRuKzGMMnWhEFCg&usqp=CAU') no-repeat center center; background-size: cover; ">
+									<!-- Alignement du nombre au centre avec flex -->
+									<div class="d-flex justify-content-center align-items-center h-100 w-100">
+										<h3 style="z-index: 2; color: white;">{{ maxResolvedToday.ticketCount|default('0') }}</h3>
+									</div>
+								</div>
+								<p class="text-center mt-3">Max résolus aujourd'hui par
+									{{ maxResolvedToday.pseudo|default('personne') }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{# THIS WEEK #}
+			<div class="card-body">
+				{% set today = "now"|date("Y-m-d") %}
+				{% set startOfWeek = today|date_modify('monday this week')|date("d/m/Y") %}
+				{% set endOfWeek = today|date_modify('sunday this week')|date("d/m/Y") %}
+
+				<h2 class="text-center">{{ startOfWeek }}
+					-
+					{{ endOfWeek }}</h2>
+				<div
+					class="row text-center">
+					{# NEW TICKETS THIS WEEK #}
+					<div class="col d-flex flex-column justify-content-between">
+						<div class="card border-0 h-100">
+							<div class="card-body d-flex flex-column justify-content-center">
+								<h3 style="color: rgba(135, 94, 235, 1);">{{ newTicketsThisWeek }}</h3>
+								<p>Nouveaux</p>
+							</div>
+						</div>
+					</div>
+					{# IN PROGRESS THIS WEEK #}
+					<div class="col d-flex flex-column justify-content-between">
+						<div class="card border-0 h-100">
+							<div class="card-body d-flex flex-column justify-content-center">
+								<h3 style="color: rgba(135, 94, 235, 1);">{{ inProgressTicketsThisWeek }}</h3>
+								<p>En cours</p>
+							</div>
+						</div>
+					</div>
+					{# CLOSED THIS WEEK #}
+					<div class="col d-flex flex-column justify-content-between">
+						<div class="card border-0 h-100">
+							<div class="card-body d-flex flex-column justify-content-center">
+								<h3 style="color: rgba(135, 94, 235, 1);">{{ closedTicketsThisWeek }}</h3>
+								<p>Cloturés</p>
+							</div>
+						</div>
+					</div>
+					{# THIS WEEK TOP #}
+					<div class="col d-flex flex-column justify-content-between">
+						<div class="card border-0 h-100">
+							<div class="card-body d-flex flex-column justify-content-center align-items-center">
+								<div class="image-container" style=" width: 150px; height: 150px; flex-shrink: 0; border-radius: 38px; border: 3px solid #5EDAEB; background: linear-gradient(0deg, rgba(135, 94, 235, 0.60) 0%, rgba(135, 94, 235, 0.60) 100%), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkq3iQYVKllbdVHi-Lry0cRuKzGMMnWhEFCg&usqp=CAU') no-repeat center center; background-size: cover; ">
+									<div class="d-flex justify-content-center align-items-center h-100 w-100">
+										<h3 style="z-index: 2; color: white;">{{ maxResolvedThisWeek.ticketCount|default('0') }}</h3>
+									</div>
+								</div>
+								<p class="text-center mt-3">Max résolus cette semaine par
+									{{ maxResolvedThisWeek.pseudo|default('personne') }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{# THIS MONTH #}
+			<div class="card-body">
+                <h2 class="text-center"> {{ "now"|date("F") }}</h2>
+				<div
+					class="row text-center">
+					{# NEW TICKETS THIS MONTH #}
+					<div class="col d-flex flex-column justify-content-between">
+						<div class="card border-0 h-100">
+							<div class="card-body d-flex flex-column justify-content-center">
+								<h3 style="color: rgba(135, 94, 235, 1);">{{ newTicketsThisMonth }}</h3>
+								<p>Nouveaux</p>
+							</div>
+						</div>
+					</div>
+					{# IN PROGRESS THIS MONTH #}
+					<div class="col d-flex flex-column justify-content-between">
+						<div class="card border-0 h-100">
+							<div class="card-body d-flex flex-column justify-content-center">
+								<h3 style="color: rgba(135, 94, 235, 1);">{{ inProgressTicketsThisMonth }}</h3>
+								<p>En cours</p>
+							</div>
+						</div>
+					</div>
+					{# CLOSED THIS MONTH #}
+					<div class="col d-flex flex-column justify-content-between">
+						<div class="card border-0 h-100">
+							<div class="card-body d-flex flex-column justify-content-center">
+								<h3 style="color: rgba(135, 94, 235, 1);">{{ closedTicketsThisMonth }}</h3>
+								<p>Cloturés</p>
+							</div>
+						</div>
+					</div>
+					{# THIS MONTH TOP #}
+					<div class="col d-flex flex-column justify-content-between">
+						<div class="card border-0 h-100">
+							<div class="card-body d-flex flex-column justify-content-center align-items-center">
+								<div class="image-container" style=" width: 150px; height: 150px; flex-shrink: 0; border-radius: 38px; border: 3px solid #5EDAEB; background: linear-gradient(0deg, rgba(135, 94, 235, 0.60) 0%, rgba(135, 94, 235, 0.60) 100%), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkq3iQYVKllbdVHi-Lry0cRuKzGMMnWhEFCg&usqp=CAU') no-repeat center center; background-size: cover; ">
+									<div class="d-flex justify-content-center align-items-center h-100 w-100">
+										<h3 style="z-index: 2; color: white;">{{ maxResolvedThisMonth.ticketCount|default('0') }}</h3>
+									</div>
+								</div>
+								<p class="text-center mt-3">Max résolus aujourd'hui par
+									{{ maxResolvedThisMonth.pseudo|default('personne') }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div></div>{% endblock %}

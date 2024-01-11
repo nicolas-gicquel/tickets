@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page non trouvée{% endblock %}
+
+{% block body %}
+<style>
+    @media (max-width: 767.98px) {
+        img[alt="Nicolas"] {
+            display: none;
+        }
+    }
+</style>
+
+<div class="container text-center mt-5">
+    <h1>Tu t'es perdu et un Nicolas sauvage est apparu.</h1>
+    
+    <div class="d-none d-md-block">
+        <img src="{{ asset('forest.png') }}" alt="Forêt" class="img-fluid">
+    </div>
+    
+    <div style="position: relative; display: inline-block;">
+        <img src={{ asset('nicolas.jpeg') }} alt="Nicolas" class="img-fluid" style="position: absolute; top: -50px;">
+    </div>
+    
+    <div class="mt-4">
+        <a href="{{ path('index') }}" class="btn btn-primary">Revenir en lieu sûr</a>
+    </div>
+</div>
+{% endblock %}

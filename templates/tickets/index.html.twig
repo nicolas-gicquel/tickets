@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Tickets{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1 class="page-title">Mes Tickets</h1>
+    <div class="card bg-white main-section">
+        <div class="card-body">
+            {% for ticket in tickets %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ ticket.title }}</h5>
+                        <p class="card-text">{{ ticket.description }}</p>
+                        <div class="d-flex justify-content-between">
+                            <small class="text-muted">Créé le: {{ ticket.createdAt|date('Y-m-d H:i:s') }}</small>
+                            <div>
+                                <a href="{{ path('app_tickets_show', {'id': ticket.id}) }}" class="btn btn-primary">Voir</a>
+                                <a href="{{ path('app_tickets_edit', {'id': ticket.id}) }}" class="btn btn-secondary">Éditer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p>Aucun ticket trouvé.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"><span>Titre</span></th>
+            <th scope="col"><span>Status</span></th>
+            <th scope="col"><span>Catégorie</span></th>
+            <th scope="col"><span>Utilisateur</span></th>
+            <th scope="col"><span>Date de création</span></th>
+            <th scope="col"><span>Actions</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ticket in tickets %}
+        <tr>
+            <td> {{ticket.title | slice(0,50)}}... </td>
+            <td>{{ticket.status.label}}</td>
+            <td> {{ ticket.categorie.label }} - {{ ticket.technologie.label }} </td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <img class="me-2" width="28" height="28" style="border-radius: 90%; "
+                        src="https://png.pngtree.com/png-vector/20200614/ourlarge/pngtree-businessman-user-avatar-character-vector-illustration-png-image_2242909.jpg"
+                        alt="">
+                    <span> {{ticket.user.fullName}} </span>
+                </div>
+            </td>
+            <td> {{ticket.createdAt | date('Y-m-d H:i')  }} </td>
+            <td>
+                <a href="#" class="btn">
+                    <svg width="24" height="24" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M23.2917 12.7917L25.2083 14.7083L6.33333 33.5833H4.41667V31.6667L23.2917 12.7917ZM30.7917 0.25C30.2708 0.25 29.7292 0.458333 29.3333 0.854167L25.5208 4.66667L33.3333 12.4792L37.1458 8.66667C37.9583 7.85417 37.9583 6.54167 37.1458 5.72917L32.2708 0.854167C31.8542 0.4375 31.3333 0.25 30.7917 0.25ZM23.2917 6.89583L0.25 29.9375V37.75H8.0625L31.1042 14.7083L23.2917 6.89583Z"
+                            fill="var(--dark-pink-color)" />
+                    </svg>
+                </a>
+                <a href="#" class="btn">
+                    <svg width="24" height="24" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M38.1251 11.8963C37.3126 11.0838 36.0001 11.0838 35.1876 11.8963L25.0001 22.063L14.8126 11.8755C14.0001 11.063 12.6876 11.063 11.8751 11.8755C11.0626 12.688 11.0626 14.0005 11.8751 14.813L22.0626 25.0005L11.8751 35.188C11.0626 36.0005 11.0626 37.313 11.8751 38.1255C12.6876 38.938 14.0001 38.938 14.8126 38.1255L25.0001 27.938L35.1876 38.1255C36.0001 38.938 37.3126 38.938 38.1251 38.1255C38.9376 37.313 38.9376 36.0005 38.1251 35.188L27.9376 25.0005L38.1251 14.813C38.9168 14.0213 38.9168 12.688 38.1251 11.8963Z"
+                            fill="red" />
+                    </svg>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

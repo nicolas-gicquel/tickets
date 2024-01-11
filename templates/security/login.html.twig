@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!
+{% endblock %}
+
+{% block body %}
+<style>
+.text-dark-pink:hover{
+	color:#5E63EB
+}
+</style>
+	<form method="post">
+		{% if error %}
+			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
+
+		{% if app.user %}
+			<div class="mb-3">
+				You are logged in as
+				{{ app.user.userIdentifier }},
+				<a href="{{ path('app_logout') }}">Logout</a>
+			</div>
+		{% endif %}
+		<div class="container-fluid">
+			<h1 class="page-title">Connectez-vous</h1>
+			<div class="card bg-white">
+				<div class="card-body">
+
+					<div class="container text-center mt-5">
+						<div class="row mt-3 justify-content-around">
+							<div class="col-md-4 mb-2 ">
+								<div class="form-text">
+									<label for="inputEmail">Email</label>
+									<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mt-2" autocomplete="email" required autofocus>
+								</div>
+							</div>
+
+							<div class="col-md-4 ">
+								<div class="form-text">
+									<label for="inputPassword">Password</label>
+									<input type="password" name="password" id="inputPassword" class="form-control mt-2" autocomplete="current-password" required>
+								</div>
+							</div>
+
+							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+							<div class="row justify-content-center mt-5 ">
+								<div class='col-md-4'>
+									<button class="btn btn-first" type="submit">
+										Connexion
+									</button>
+								</div>
+							</div>
+							
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+{% endblock %}
